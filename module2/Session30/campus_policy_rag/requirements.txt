@@ -1,4 +1,5 @@
 chromadb
 pypdf
-google-genai
 sentence-transformers
+transformers
+torch

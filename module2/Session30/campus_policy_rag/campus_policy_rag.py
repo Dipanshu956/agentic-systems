@@ -6,16 +6,16 @@ from pathlib import Path
 import chromadb
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
-from google import genai
+from transformers import pipeline
 import os
+
+generator = pipeline(
+    "text2text-generation",
+    model="google/flan-t5-base"
+)
 
 # initialize local embedding model
 embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
-
-# initialize Gemini client
-client = genai.Client(
-    api_key=os.getenv("GOOGLE_API_KEY")
-)
 
 
 # ==========================
@@ -26,7 +26,7 @@ PDF_FOLDER = PROJECT_DIR / "policy_documents"
 CHROMA_DIR = PROJECT_DIR / "chroma_db"
 COLLECTION_NAME = "campus_policies"
 
-client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+
 
 
 # ==========================
@@ -197,12 +197,13 @@ def answer_question(collection, query):
 
     prompt = build_prompt(query, chunks)
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash",
-        contents=prompt
+    result = generator(
+        prompt,
+        max_length=200,
+        do_sample=False
     )
 
-    return response.text
+    return result[0]["generated_text"]
 
 
 # ==========================
