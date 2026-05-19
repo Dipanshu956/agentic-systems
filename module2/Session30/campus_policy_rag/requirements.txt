@@ -1,0 +1,4 @@
+chromadb
+pypdf
+google-genai
+sentence-transformers
