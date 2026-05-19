@@ -1,0 +1,9 @@
+venv/
+.env
+__pycache__/
+*.pyc
+.vscode/
+
+# Chroma generated database
+chroma_db/
+*.sqlite3

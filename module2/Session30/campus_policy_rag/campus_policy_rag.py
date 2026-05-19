@@ -10,8 +10,8 @@ from transformers import pipeline
 import os
 
 generator = pipeline(
-    "text2text-generation",
-    model="google/flan-t5-base"
+    "text-generation",
+    model="distilgpt2"
 )
 
 # initialize local embedding model
